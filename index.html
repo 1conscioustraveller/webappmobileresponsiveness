@@ -14,27 +14,42 @@
         margin: 0;
         padding: 20px;
       }
+
+      /* 🎛 Deck Grid */
       .deck-grid {
         display: grid;
-        grid-template-columns: 1fr 60px 80px 1fr 60px 80px;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
         gap: 20px;
         justify-items: center;
-        align-items: center;
+        align-items: start;
       }
+
+      .deck iframe {
+        width: 100% !important;
+        max-width: 360px;
+        height: auto;
+        aspect-ratio: 16 / 9;
+      }
+
       .deck {
         display: flex;
         flex-direction: column;
         align-items: center;
+        width: 100%;
       }
+
       .fader {
         display: flex;
         flex-direction: column;
         align-items: center;
+        margin-top: 10px;
       }
+
       .fader label {
         margin-bottom: 8px;
         font-weight: bold;
       }
+
       /* Volume faders */
       .vertical-slider {
         transform: rotate(270deg);
@@ -48,6 +63,7 @@
         box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.8);
         margin-bottom: 15px;
       }
+
       .vertical-slider::-webkit-slider-thumb {
         -webkit-appearance: none;
         width: 24px;
@@ -58,6 +74,7 @@
         cursor: pointer;
         box-shadow: 0 0 6px #00e0ff, 0 0 12px rgba(0, 224, 255, 0.6);
       }
+
       .vertical-slider::-moz-range-thumb {
         width: 24px;
         height: 28px;
@@ -67,6 +84,7 @@
         cursor: pointer;
         box-shadow: 0 0 6px #00e0ff, 0 0 12px rgba(0, 224, 255, 0.6);
       }
+
       /* Speed (Pitch) faders */
       .pitch-slider {
         transform: rotate(270deg);
@@ -79,6 +97,7 @@
         outline: none;
         box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.8);
       }
+
       .pitch-slider::-webkit-slider-thumb {
         -webkit-appearance: none;
         width: 24px;
@@ -89,6 +108,7 @@
         cursor: pointer;
         box-shadow: 0 0 6px #ff4081, 0 0 12px rgba(255, 64, 129, 0.6);
       }
+
       .pitch-slider::-moz-range-thumb {
         width: 24px;
         height: 28px;
@@ -98,24 +118,29 @@
         cursor: pointer;
         box-shadow: 0 0 6px #ff4081, 0 0 12px rgba(255, 64, 129, 0.6);
       }
+
       .speed-control {
         display: flex;
         flex-direction: column;
         align-items: center;
         font-size: 12px;
         color: #ff4081;
+        margin-top: 10px;
       }
+
       .rate-label {
         margin-top: 6px;
         font-size: 14px;
         font-weight: bold;
         color: #ff4081;
       }
+
       /* Crossfader */
       .crossfader {
         margin-top: 40px;
         text-align: center;
       }
+
       .crossfader input[type="range"] {
         -webkit-appearance: none;
         width: 500px;
@@ -125,6 +150,7 @@
         outline: none;
         box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.8);
       }
+
       .crossfader input[type="range"]::-webkit-slider-thumb {
         -webkit-appearance: none;
         width: 36px;
@@ -135,6 +161,7 @@
         cursor: pointer;
         box-shadow: 0 0 8px #00e0ff, 0 0 14px rgba(0, 224, 255, 0.7);
       }
+
       .crossfader input[type="range"]::-moz-range-thumb {
         width: 36px;
         height: 48px;
@@ -144,17 +171,20 @@
         cursor: pointer;
         box-shadow: 0 0 8px #00e0ff, 0 0 14px rgba(0, 224, 255, 0.7);
       }
+
       .searchload {
         margin-top: 30px;
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         gap: 20px;
         text-align: center;
       }
+
       input[type="text"] {
         width: 150px;
         padding: 5px;
       }
+
       button {
         margin-top: 5px;
         padding: 5px 10px;
@@ -163,48 +193,28 @@
         border-radius: 5px;
         cursor: pointer;
       }
+
       button:hover {
         background: #00e0ff;
       }
 
-      /* 📱 Mobile responsiveness */
+      /* 📱 Mobile tweaks */
       @media (max-width: 768px) {
-        .deck-grid {
-          grid-template-columns: 1fr;
-          gap: 30px;
-        }
-        .vertical-slider,
-        .pitch-slider {
-          transform: rotate(0deg);
-          width: 100%;
-          height: 50px; /* fatter track */
-          margin: 12px 0;
-        }
-        .vertical-slider::-webkit-slider-thumb,
-        .pitch-slider::-webkit-slider-thumb {
-          width: 48px;
-          height: 60px;
-        }
-        .vertical-slider::-moz-range-thumb,
-        .pitch-slider::-moz-range-thumb {
-          width: 48px;
-          height: 60px;
-        }
         .crossfader input[type="range"] {
           width: 95%;
           height: 28px;
         }
+
         .crossfader input[type="range"]::-webkit-slider-thumb {
           width: 54px;
           height: 72px;
         }
+
         .crossfader input[type="range"]::-moz-range-thumb {
           width: 54px;
           height: 72px;
         }
-        .searchload {
-          grid-template-columns: 1fr;
-        }
+
         input[type="text"],
         button {
           width: 90%;
@@ -232,8 +242,8 @@
           window.onYouTubeIframeAPIReady = () => {
             ["A", "B", "C", "D"].forEach((id) => {
               playersRef.current[id] = new window.YT.Player(`player-${id}`, {
-                height: "200",
-                width: "300",
+                height: "100%",
+                width: "100%",
                 videoId: "dQw4w9WgXcQ",
                 playerVars: { controls: 1 },
               });
@@ -310,11 +320,9 @@
         return (
           <div>
             <div className="deck-grid">
-              {["A", "C", "B", "D"].map((deck) => (
-                <React.Fragment key={deck}>
-                  <div className="deck">
-                    <div id={`player-${deck}`}></div>
-                  </div>
+              {["A", "B", "C", "D"].map((deck) => (
+                <div className="deck" key={deck}>
+                  <div id={`player-${deck}`}></div>
                   <div className="fader">
                     <label>{deck}</label>
                     <input
@@ -339,7 +347,7 @@
                     />
                     <div className="rate-label">{rates[deck].toFixed(2)}x</div>
                   </div>
-                </React.Fragment>
+                </div>
               ))}
             </div>
 
