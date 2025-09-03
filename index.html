@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>TubeDJ Responsive</title>
+    <title>TubeDJ Test</title>
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -14,8 +14,6 @@
         margin: 0;
         padding: 20px;
       }
-
-      /* Desktop Grid */
       .deck-grid {
         display: grid;
         grid-template-columns: 1fr 60px 1fr 60px;
@@ -23,24 +21,20 @@
         justify-items: center;
         align-items: center;
       }
-
       .deck {
         display: flex;
         flex-direction: column;
         align-items: center;
       }
-
       .fader {
         display: flex;
         flex-direction: column;
         align-items: center;
       }
-
       .fader label {
         margin-bottom: 8px;
         font-weight: bold;
       }
-
       .fader input[type="range"] {
         -webkit-appearance: none;
         writing-mode: bt-lr;
@@ -52,7 +46,6 @@
         outline: none;
         box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
       }
-
       .fader input[type="range"]::-webkit-slider-thumb {
         -webkit-appearance: none;
         width: 20px;
@@ -63,7 +56,6 @@
         box-shadow: 0 0 6px #00e0ff, 0 0 12px #00e0ff;
         margin-top: -4px;
       }
-
       .fader input[type="range"]::-moz-range-thumb {
         width: 20px;
         height: 20px;
@@ -72,23 +64,19 @@
         cursor: pointer;
         box-shadow: 0 0 6px #00e0ff, 0 0 12px #00e0ff;
       }
-
       .crossfader {
         margin-top: 40px;
         text-align: center;
       }
-
       .crossfader input[type="range"] {
         -webkit-appearance: none;
-        width: 90%;
-        max-width: 500px;
+        width: 500px;
         height: 12px;
         background: #111;
         border-radius: 6px;
         outline: none;
         box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
       }
-
       .crossfader input[type="range"]::-webkit-slider-thumb {
         -webkit-appearance: none;
         width: 20px;
@@ -98,7 +86,6 @@
         cursor: pointer;
         box-shadow: 0 0 6px #00e0ff, 0 0 12px #00e0ff;
       }
-
       .crossfader input[type="range"]::-moz-range-thumb {
         width: 20px;
         height: 40px;
@@ -107,7 +94,6 @@
         cursor: pointer;
         box-shadow: 0 0 6px #00e0ff, 0 0 12px #00e0ff;
       }
-
       .searchload {
         margin-top: 30px;
         display: grid;
@@ -115,12 +101,10 @@
         gap: 20px;
         text-align: center;
       }
-
       input[type="text"] {
         width: 150px;
         padding: 5px;
       }
-
       button {
         margin-top: 5px;
         padding: 5px 10px;
@@ -129,42 +113,8 @@
         border-radius: 5px;
         cursor: pointer;
       }
-
       button:hover {
         background: #00e0ff;
-      }
-
-      /* 📱 Responsive Layout for Mobile/Tablet */
-      @media (max-width: 900px) {
-        .deck-grid {
-          grid-template-columns: 1fr 1fr;
-          gap: 15px;
-        }
-        .deck,
-        .fader {
-          width: 100%;
-        }
-        .fader {
-          margin-top: 10px;
-        }
-        .fader input[type="range"] {
-          height: 120px;
-        }
-        .searchload {
-          grid-template-columns: repeat(2, 1fr);
-        }
-      }
-
-      @media (max-width: 600px) {
-        .deck-grid {
-          grid-template-columns: 1fr;
-        }
-        .searchload {
-          grid-template-columns: 1fr;
-        }
-        .crossfader input[type="range"] {
-          width: 100%;
-        }
       }
     </style>
   </head>
@@ -255,58 +205,58 @@
             <div className="deck-grid">
               <div className="deck">
                 <div id="player-A"></div>
-                <div className="fader">
-                  <label>A</label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    value={volumes.A}
-                    onChange={(e) => handleVolume("A", Number(e.target.value))}
-                  />
-                </div>
+              </div>
+              <div className="fader">
+                <label>A</label>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={volumes.A}
+                  onChange={(e) => handleVolume("A", Number(e.target.value))}
+                />
               </div>
 
               <div className="deck">
                 <div id="player-C"></div>
-                <div className="fader">
-                  <label>C</label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    value={volumes.C}
-                    onChange={(e) => handleVolume("C", Number(e.target.value))}
-                  />
-                </div>
+              </div>
+              <div className="fader">
+                <label>C</label>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={volumes.C}
+                  onChange={(e) => handleVolume("C", Number(e.target.value))}
+                />
               </div>
 
               <div className="deck">
                 <div id="player-B"></div>
-                <div className="fader">
-                  <label>B</label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    value={volumes.B}
-                    onChange={(e) => handleVolume("B", Number(e.target.value))}
-                  />
-                </div>
+              </div>
+              <div className="fader">
+                <label>B</label>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={volumes.B}
+                  onChange={(e) => handleVolume("B", Number(e.target.value))}
+                />
               </div>
 
               <div className="deck">
                 <div id="player-D"></div>
-                <div className="fader">
-                  <label>D</label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    value={volumes.D}
-                    onChange={(e) => handleVolume("D", Number(e.target.value))}
-                  />
-                </div>
+              </div>
+              <div className="fader">
+                <label>D</label>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={volumes.D}
+                  onChange={(e) => handleVolume("D", Number(e.target.value))}
+                />
               </div>
             </div>
 
