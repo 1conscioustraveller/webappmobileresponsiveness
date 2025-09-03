@@ -1,1 +1,349 @@
-DOC
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>TubeDJ Responsive</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      body {
+        background: #0a2a66;
+        color: #00e0ff;
+        font-family: sans-serif;
+        margin: 0;
+        padding: 20px;
+      }
+
+      /* Desktop Grid */
+      .deck-grid {
+        display: grid;
+        grid-template-columns: 1fr 60px 1fr 60px;
+        gap: 20px;
+        justify-items: center;
+        align-items: center;
+      }
+
+      .deck {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .fader {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .fader label {
+        margin-bottom: 8px;
+        font-weight: bold;
+      }
+
+      .fader input[type="range"] {
+        -webkit-appearance: none;
+        writing-mode: bt-lr;
+        appearance: slider-vertical;
+        width: 12px;
+        height: 150px;
+        background: #111;
+        border-radius: 6px;
+        outline: none;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+      }
+
+      .fader input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 20px;
+        height: 20px;
+        background: #00e0ff;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 0 6px #00e0ff, 0 0 12px #00e0ff;
+        margin-top: -4px;
+      }
+
+      .fader input[type="range"]::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        background: #00e0ff;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 0 6px #00e0ff, 0 0 12px #00e0ff;
+      }
+
+      .crossfader {
+        margin-top: 40px;
+        text-align: center;
+      }
+
+      .crossfader input[type="range"] {
+        -webkit-appearance: none;
+        width: 90%;
+        max-width: 500px;
+        height: 12px;
+        background: #111;
+        border-radius: 6px;
+        outline: none;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+      }
+
+      .crossfader input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 20px;
+        height: 40px;
+        background: #00e0ff;
+        border-radius: 3px;
+        cursor: pointer;
+        box-shadow: 0 0 6px #00e0ff, 0 0 12px #00e0ff;
+      }
+
+      .crossfader input[type="range"]::-moz-range-thumb {
+        width: 20px;
+        height: 40px;
+        background: #00e0ff;
+        border-radius: 3px;
+        cursor: pointer;
+        box-shadow: 0 0 6px #00e0ff, 0 0 12px #00e0ff;
+      }
+
+      .searchload {
+        margin-top: 30px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        text-align: center;
+      }
+
+      input[type="text"] {
+        width: 150px;
+        padding: 5px;
+      }
+
+      button {
+        margin-top: 5px;
+        padding: 5px 10px;
+        background: #00bcd4;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #00e0ff;
+      }
+
+      /* 📱 Responsive Layout for Mobile/Tablet */
+      @media (max-width: 900px) {
+        .deck-grid {
+          grid-template-columns: 1fr 1fr;
+          gap: 15px;
+        }
+        .deck,
+        .fader {
+          width: 100%;
+        }
+        .fader {
+          margin-top: 10px;
+        }
+        .fader input[type="range"] {
+          height: 120px;
+        }
+        .searchload {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .deck-grid {
+          grid-template-columns: 1fr;
+        }
+        .searchload {
+          grid-template-columns: 1fr;
+        }
+        .crossfader input[type="range"] {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      function TubeDJ() {
+        const playersRef = React.useRef({});
+        const [volumes, setVolumes] = React.useState({ A: 50, B: 50, C: 50, D: 50 });
+        const [crossfade, setCrossfade] = React.useState(0.5);
+        const [videoIds, setVideoIds] = React.useState({ A: "", B: "", C: "", D: "" });
+
+        React.useEffect(() => {
+          const tag = document.createElement("script");
+          tag.src = "https://www.youtube.com/iframe_api";
+          document.body.appendChild(tag);
+
+          window.onYouTubeIframeAPIReady = () => {
+            ["A", "B", "C", "D"].forEach((id) => {
+              playersRef.current[id] = new window.YT.Player(`player-${id}`, {
+                height: "200",
+                width: "300",
+                videoId: "dQw4w9WgXcQ",
+                playerVars: { controls: 1 },
+              });
+            });
+          };
+        }, []);
+
+        const applyVolumes = (xfade, currentVolumes) => {
+          const leftFactor = 1 - xfade;
+          const rightFactor = xfade;
+
+          ["A", "B"].forEach((deck) => {
+            const player = playersRef.current[deck];
+            if (player) {
+              if (player.unMute) player.unMute();
+              player.setVolume((currentVolumes[deck] / 100) * leftFactor * 100);
+            }
+          });
+
+          ["C", "D"].forEach((deck) => {
+            const player = playersRef.current[deck];
+            if (player) {
+              if (player.unMute) player.unMute();
+              player.setVolume((currentVolumes[deck] / 100) * rightFactor * 100);
+            }
+          });
+        };
+
+        const handleVolume = (deck, value) => {
+          const updated = { ...volumes, [deck]: value };
+          setVolumes(updated);
+          applyVolumes(crossfade, updated);
+        };
+
+        const handleCrossfade = (value) => {
+          setCrossfade(value);
+          applyVolumes(value, volumes);
+        };
+
+        const extractVideoId = (urlOrId) => {
+          try {
+            const url = new URL(urlOrId);
+            if (url.hostname.includes("youtube.com")) {
+              return url.searchParams.get("v");
+            }
+            if (url.hostname.includes("youtu.be")) {
+              return url.pathname.slice(1);
+            }
+          } catch {
+            return urlOrId;
+          }
+          return urlOrId;
+        };
+
+        const loadVideo = (deck) => {
+          const id = extractVideoId(videoIds[deck]);
+          const player = playersRef.current[deck];
+          if (player?.loadVideoById) {
+            player.loadVideoById(id);
+          }
+        };
+
+        return (
+          <div>
+            <div className="deck-grid">
+              <div className="deck">
+                <div id="player-A"></div>
+                <div className="fader">
+                  <label>A</label>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={volumes.A}
+                    onChange={(e) => handleVolume("A", Number(e.target.value))}
+                  />
+                </div>
+              </div>
+
+              <div className="deck">
+                <div id="player-C"></div>
+                <div className="fader">
+                  <label>C</label>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={volumes.C}
+                    onChange={(e) => handleVolume("C", Number(e.target.value))}
+                  />
+                </div>
+              </div>
+
+              <div className="deck">
+                <div id="player-B"></div>
+                <div className="fader">
+                  <label>B</label>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={volumes.B}
+                    onChange={(e) => handleVolume("B", Number(e.target.value))}
+                  />
+                </div>
+              </div>
+
+              <div className="deck">
+                <div id="player-D"></div>
+                <div className="fader">
+                  <label>D</label>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={volumes.D}
+                    onChange={(e) => handleVolume("D", Number(e.target.value))}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="crossfader">
+              <label>Crossfader (A/B ⇄ C/D)</label>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                value={crossfade}
+                onChange={(e) => handleCrossfade(Number(e.target.value))}
+              />
+            </div>
+
+            <div className="searchload">
+              {["A", "B", "C", "D"].map((deck) => (
+                <div key={deck}>
+                  <label>Paste YT URL:</label>
+                  <br />
+                  <input
+                    type="text"
+                    placeholder={`YouTube URL/ID for ${deck}`}
+                    value={videoIds[deck]}
+                    onChange={(e) =>
+                      setVideoIds((prev) => ({ ...prev, [deck]: e.target.value }))
+                    }
+                  />
+                  <button onClick={() => loadVideo(deck)}>Load {deck}</button>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<TubeDJ />);
+    </script>
+  </body>
+</html>
