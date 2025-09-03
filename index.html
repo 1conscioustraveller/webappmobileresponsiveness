@@ -171,23 +171,13 @@
       @media (max-width: 768px) {
         .deck-grid {
           grid-template-columns: 1fr;
-          gap: 40px;
-        }
-        .deck-block {
-          background: rgba(0, 0, 0, 0.4);
-          padding: 15px;
-          border-radius: 10px;
-        }
-        .deck,
-        .fader,
-        .speed-control {
-          margin: 10px 0;
+          gap: 30px;
         }
         .vertical-slider,
         .pitch-slider {
           transform: rotate(0deg);
           width: 100%;
-          height: 50px;
+          height: 50px; /* fatter track */
           margin: 12px 0;
         }
         .vertical-slider::-webkit-slider-thumb,
@@ -321,7 +311,7 @@
           <div>
             <div className="deck-grid">
               {["A", "C", "B", "D"].map((deck) => (
-                <div className="deck-block" key={deck}>
+                <React.Fragment key={deck}>
                   <div className="deck">
                     <div id={`player-${deck}`}></div>
                   </div>
@@ -349,20 +339,7 @@
                     />
                     <div className="rate-label">{rates[deck].toFixed(2)}x</div>
                   </div>
-                  <div className="searchload">
-                    <label>Paste YT URL:</label>
-                    <br />
-                    <input
-                      type="text"
-                      placeholder={`YouTube URL/ID for ${deck}`}
-                      value={videoIds[deck]}
-                      onChange={(e) =>
-                        setVideoIds((prev) => ({ ...prev, [deck]: e.target.value }))
-                      }
-                    />
-                    <button onClick={() => loadVideo(deck)}>Load {deck}</button>
-                  </div>
-                </div>
+                </React.Fragment>
               ))}
             </div>
 
@@ -376,6 +353,24 @@
                 value={crossfade}
                 onChange={(e) => handleCrossfade(Number(e.target.value))}
               />
+            </div>
+
+            <div className="searchload">
+              {["A", "B", "C", "D"].map((deck) => (
+                <div key={deck}>
+                  <label>Paste YT URL:</label>
+                  <br />
+                  <input
+                    type="text"
+                    placeholder={`YouTube URL/ID for ${deck}`}
+                    value={videoIds[deck]}
+                    onChange={(e) =>
+                      setVideoIds((prev) => ({ ...prev, [deck]: e.target.value }))
+                    }
+                  />
+                  <button onClick={() => loadVideo(deck)}>Load {deck}</button>
+                </div>
+              ))}
             </div>
           </div>
         );
