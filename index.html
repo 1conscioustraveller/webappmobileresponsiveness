@@ -35,35 +35,50 @@
         margin-bottom: 8px;
         font-weight: bold;
       }
-      .fader input[type="range"] {
+
+      /* Vertical DJ-style sliders (fixed) */
+      .vertical-slider {
+        transform: rotate(270deg);
         -webkit-appearance: none;
-        writing-mode: bt-lr;
-        appearance: slider-vertical;
-        width: 12px;
-        height: 150px;
-        background: #111;
-        border-radius: 6px;
+        appearance: none;
+        width: 160px; /* swapped */
+        height: 18px;
+        background: linear-gradient(to right, #222, #000);
+        border-radius: 8px;
         outline: none;
-        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+        box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.8);
       }
-      .fader input[type="range"]::-webkit-slider-thumb {
+      .vertical-slider::-webkit-slider-thumb {
         -webkit-appearance: none;
-        width: 20px;
-        height: 20px;
-        background: #00e0ff;
-        border-radius: 50%;
+        width: 24px;
+        height: 28px;
+        background: #222;
+        border: 2px solid #00e0ff;
+        border-radius: 4px;
         cursor: pointer;
-        box-shadow: 0 0 6px #00e0ff, 0 0 12px #00e0ff;
-        margin-top: -4px;
+        box-shadow: 0 0 6px #00e0ff, 0 0 12px rgba(0, 224, 255, 0.6);
       }
-      .fader input[type="range"]::-moz-range-thumb {
-        width: 20px;
-        height: 20px;
-        background: #00e0ff;
-        border-radius: 50%;
+      .vertical-slider::-moz-range-thumb {
+        width: 24px;
+        height: 28px;
+        background: #222;
+        border: 2px solid #00e0ff;
+        border-radius: 4px;
         cursor: pointer;
-        box-shadow: 0 0 6px #00e0ff, 0 0 12px #00e0ff;
+        box-shadow: 0 0 6px #00e0ff, 0 0 12px rgba(0, 224, 255, 0.6);
       }
+      .vertical-slider::-webkit-slider-runnable-track {
+        background: linear-gradient(to right, #333, #111);
+        border-radius: 8px;
+        height: 18px;
+      }
+      .vertical-slider::-moz-range-track {
+        background: linear-gradient(to right, #333, #111);
+        border-radius: 8px;
+        height: 18px;
+      }
+
+      /* Crossfader */
       .crossfader {
         margin-top: 40px;
         text-align: center;
@@ -71,29 +86,32 @@
       .crossfader input[type="range"] {
         -webkit-appearance: none;
         width: 500px;
-        height: 12px;
-        background: #111;
-        border-radius: 6px;
+        height: 14px;
+        background: linear-gradient(to right, #333, #111);
+        border-radius: 7px;
         outline: none;
-        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+        box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.8);
       }
       .crossfader input[type="range"]::-webkit-slider-thumb {
         -webkit-appearance: none;
-        width: 20px;
+        width: 28px;
         height: 40px;
-        background: #00e0ff;
-        border-radius: 3px;
+        background: #222;
+        border: 2px solid #00e0ff;
+        border-radius: 4px;
         cursor: pointer;
-        box-shadow: 0 0 6px #00e0ff, 0 0 12px #00e0ff;
+        box-shadow: 0 0 6px #00e0ff, 0 0 12px rgba(0, 224, 255, 0.6);
       }
       .crossfader input[type="range"]::-moz-range-thumb {
-        width: 20px;
+        width: 28px;
         height: 40px;
-        background: #00e0ff;
-        border-radius: 3px;
+        background: #222;
+        border: 2px solid #00e0ff;
+        border-radius: 4px;
         cursor: pointer;
-        box-shadow: 0 0 6px #00e0ff, 0 0 12px #00e0ff;
+        box-shadow: 0 0 6px #00e0ff, 0 0 12px rgba(0, 224, 255, 0.6);
       }
+
       .searchload {
         margin-top: 30px;
         display: grid;
@@ -209,6 +227,7 @@
               <div className="fader">
                 <label>A</label>
                 <input
+                  className="vertical-slider"
                   type="range"
                   min="0"
                   max="100"
@@ -223,6 +242,7 @@
               <div className="fader">
                 <label>C</label>
                 <input
+                  className="vertical-slider"
                   type="range"
                   min="0"
                   max="100"
@@ -237,6 +257,7 @@
               <div className="fader">
                 <label>B</label>
                 <input
+                  className="vertical-slider"
                   type="range"
                   min="0"
                   max="100"
@@ -251,6 +272,7 @@
               <div className="fader">
                 <label>D</label>
                 <input
+                  className="vertical-slider"
                   type="range"
                   min="0"
                   max="100"
