@@ -119,30 +119,30 @@
       .crossfader input[type="range"] {
         -webkit-appearance: none;
         width: 500px;
-        height: 14px;
+        height: 16px;
         background: linear-gradient(to right, #333, #111);
-        border-radius: 7px;
+        border-radius: 8px;
         outline: none;
         box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.8);
       }
       .crossfader input[type="range"]::-webkit-slider-thumb {
         -webkit-appearance: none;
-        width: 28px;
-        height: 40px;
+        width: 36px;
+        height: 48px;
         background: #222;
         border: 2px solid #00e0ff;
-        border-radius: 4px;
+        border-radius: 6px;
         cursor: pointer;
-        box-shadow: 0 0 6px #00e0ff, 0 0 12px rgba(0, 224, 255, 0.6);
+        box-shadow: 0 0 8px #00e0ff, 0 0 14px rgba(0, 224, 255, 0.7);
       }
       .crossfader input[type="range"]::-moz-range-thumb {
-        width: 28px;
-        height: 40px;
+        width: 36px;
+        height: 48px;
         background: #222;
         border: 2px solid #00e0ff;
-        border-radius: 4px;
+        border-radius: 6px;
         cursor: pointer;
-        box-shadow: 0 0 6px #00e0ff, 0 0 12px rgba(0, 224, 255, 0.6);
+        box-shadow: 0 0 8px #00e0ff, 0 0 14px rgba(0, 224, 255, 0.7);
       }
       .searchload {
         margin-top: 30px;
@@ -173,20 +173,34 @@
           grid-template-columns: 1fr;
           gap: 30px;
         }
-        .deck,
-        .fader,
-        .speed-control {
-          width: 100%;
-        }
         .vertical-slider,
         .pitch-slider {
-          transform: rotate(0deg); /* normal orientation on mobile */
+          transform: rotate(0deg);
           width: 100%;
-          height: 40px;
-          margin: 10px 0;
+          height: 50px; /* fatter track */
+          margin: 12px 0;
+        }
+        .vertical-slider::-webkit-slider-thumb,
+        .pitch-slider::-webkit-slider-thumb {
+          width: 48px;
+          height: 60px;
+        }
+        .vertical-slider::-moz-range-thumb,
+        .pitch-slider::-moz-range-thumb {
+          width: 48px;
+          height: 60px;
         }
         .crossfader input[type="range"] {
-          width: 90%;
+          width: 95%;
+          height: 28px;
+        }
+        .crossfader input[type="range"]::-webkit-slider-thumb {
+          width: 54px;
+          height: 72px;
+        }
+        .crossfader input[type="range"]::-moz-range-thumb {
+          width: 54px;
+          height: 72px;
         }
         .searchload {
           grid-template-columns: 1fr;
